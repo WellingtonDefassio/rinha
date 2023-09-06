@@ -1,2 +1,12 @@
 server:
-  port: 8081
+  port: 9999
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pessoas
+    password: secret
+    username: root
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
