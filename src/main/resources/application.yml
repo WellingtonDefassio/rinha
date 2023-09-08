@@ -1,9 +1,6 @@
-server:
-  port: 9999
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pessoas
+    url: jdbc:postgresql://${CLIENT_DB:localhost}:5432/pessoas
     password: secret
     username: root
 

@@ -1,0 +1,58 @@
+version: '3.5'
+services:
+  api1: # API - Instância 01
+    image: api
+    hostname: api1
+    environment:
+      CLIENT_DB: db
+    depends_on:
+      - db
+    expose:
+      - "80"
+    networks:
+      - rinha
+    links:
+      - db
+
+  api2: # API - Instância 01
+    image: api
+    hostname: api2
+    environment:
+      CLIENT_DB: db
+    depends_on:
+      - db
+    expose:
+      - "80"
+    networks:
+      - rinha
+    links:
+      - db
+
+  nginx: # Load Balancer
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api1
+      - api2
+    networks:
+      - rinha
+    ports:
+      - "9999:9999"
+
+  db:
+    container_name: db
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: root
+      POSTGRES_DB: pessoas
+    ports:
+      - "5432:5432"
+    networks:
+      - rinha
+
+networks:
+  rinha:
+    driver: bridge
